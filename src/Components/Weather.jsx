@@ -18,7 +18,7 @@ import { BsCloudFog2 } from "react-icons/bs"; //fog
 
 
 function Weather() {
-    const api_key = "4b4d80431c33c3ef2b19b80747e3f927"
+    const key = import.meta.env.VITE_API_KEY
     const [city, setCity] = useState("")
     const [data, setData] = useState({})
     const [humidity, setHumudity] = useState("")
@@ -28,8 +28,7 @@ function Weather() {
     const [icon, setIcon] = useState("")
 
     const handleSearch = async () => {
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${api_key}`
-
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${key}`
         if (city === "") {
             return null
         } else {
