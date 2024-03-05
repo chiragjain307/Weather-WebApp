@@ -41,7 +41,7 @@ function Weather() {
                         setHumudity("0")
                         setWind("0")
                         setTemp("0")
-                        setIcon({invalid})
+                        setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />)
                         setCity("")
                     } else {
 
