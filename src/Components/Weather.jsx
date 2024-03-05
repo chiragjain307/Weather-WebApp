@@ -29,7 +29,7 @@ function Weather() {
 
     const handleSearch = async (e) => {
         e.preventDefault()
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${key}`
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.trim()}&units=metric&appid=${key}`
         if (city === "") {
             return null
         } else {
@@ -41,7 +41,7 @@ function Weather() {
                         setHumudity("0")
                         setWind("0")
                         setTemp("0")
-                        setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />)
+                        setIcon({invalid})
                         setCity("")
                     } else {
 
@@ -79,15 +79,15 @@ function Weather() {
 
 
     return (
-        <div className=' w-[400px] bg-fuchsia-800 h-[555px] rounded-2xl p-5 font-sans'>
+        <div className=' w-[400px] bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans'>
 
             <form onSubmit={handleSearch} className='w-full relative flex items-center h-[55px]'>
                 <input
                     type="text"
                     placeholder='Search'
                     value={city}
-                    onChange={(e) => setCity(e.target.value.trim())}
-                    className='w-full h-full absolute bg-transparent border-2 border-gray-500 text-xl outline-none text-white rounded-xl pl-5 pr-10' />
+                    onChange={(e) => setCity(e.target.value)}
+                    className='w-full h-full absolute bg-transparent border-2 border-white border-opacity-20 text-xl outline-none text-white rounded-xl pl-5 pr-10' />
                 <button type="submit" className='text-white absolute right-0 h-full w-[40px] text-xl pr-5 pl-2'>
                     <FaSearch />
                 </button>
@@ -107,7 +107,7 @@ function Weather() {
 
             <div className='w-full mt-8 text-white flex justify-center items-center'>
                 
-                <div className='flex items-center justify-center  w-1/2'>
+                <div className='flex items-center pl-5 w-1/2'>
                     <WiHumidity className=' h-full text-white text-6xl ' />
                     <div className='font-medium' >
                         <div className='text-xl'>{humidity} %</div>
@@ -115,7 +115,7 @@ function Weather() {
                     </div>
                 </div>
                 
-                <div className='flex items-center justify-center gap-[10px] w-1/2'>
+                <div className='flex items-center gap-3 w-1/2'>
                     <WiDayWindy className='h-full text-white text-6xl' />
                     <div className='font-medium'>
                         <div className='text-xl'>{wind} km/h</div>
