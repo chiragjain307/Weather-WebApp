@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import invalid from '../assets/invalid.png'
 import { FaSearch } from "react-icons/fa";
 import { WiDaySunny } from "react-icons/wi"; // sunny/clear
 import { BsCloudSun } from "react-icons/bs"; //haze
@@ -20,82 +21,110 @@ import { BsCloudFog2 } from "react-icons/bs"; //fog
 function Weather() {
     const key = import.meta.env.VITE_API_KEY
     const [city, setCity] = useState("")
-    const [data, setData] = useState({})
-    const [humidity, setHumudity] = useState("")
-    const [wind, setWind] = useState("")
-    const [temp, setTemp] = useState("")
-    const [cityName, setCityName] = useState("")
-    const [icon, setIcon] = useState("")
+    const [humidity, setHumudity] = useState("0")
+    const [wind, setWind] = useState("0")
+    const [temp, setTemp] = useState("0")
+    const [cityName, setCityName] = useState("Enter Location")
+    const [icon, setIcon] = useState(<img src={invalid} alt="invalid" className='w-[128px]' />)
 
-    const handleSearch = async () => {
+    const handleSearch = async (e) => {
+        e.preventDefault()
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${key}`
         if (city === "") {
             return null
         } else {
             await fetch(url)
                 .then((e) => e.json())
-                .then((e) => setData(e))
+                .then((data) => {
+                    if (data.cod === "404") {
+                        setCityName("Invalid City")
+                        setHumudity("0")
+                        setWind("0")
+                        setTemp("0")
+                        setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />)
+                        setCity("")
+                    } else {
 
-            setHumudity(Math.floor(data.main.humidity))
-            setWind(Math.floor(data.wind.speed))
-            setTemp(Math.floor(data.main.temp))
-            setCityName(data.name)
+                        setHumudity(Math.floor(data.main.humidity))
+                        setWind(Math.floor(data.wind.speed))
+                        setTemp(Math.floor(data.main.temp))
+                        setCityName(data.name)
 
-            if (data.weather[0].description === "clear sky") {
-                setIcon(<WiDaySunny />)
-            } else if (data.weather[0].description === "few clouds") {
-                setIcon(<BsCloudSun />)
-            } else if (data.weather[0].description === "scattered clouds") {
-                setIcon(<BsClouds />)
-            } else if (data.weather[0].description === "rain") {
-                setIcon(<IoRainy />)
-            } else if (data.weather[0].description === "snow") {
-                setIcon(<FaSnowflake />)
-            } else if (data.weather[0].description === "dust") {
-                setIcon(<WiDust />)
-            } else if (data.weather[0].description === "fog") {
-                setIcon(<BsCloudFog2 />)
-            } else if (data.weather[0].description === "mist") {
-                setIcon(<CiCloudDrizzle />)
-            }
-            setCity("")
+                        if (data.weather[0].description === "clear sky") {
+                            setIcon(<WiDaySunny />)
+                        } else if (data.weather[0].description === "few clouds") {
+                            setIcon(<BsCloudSun />)
+                        } else if (data.weather[0].description === "scattered clouds") {
+                            setIcon(<BsClouds />)
+                        } else if (data.weather[0].description === "rain") {
+                            setIcon(<IoRainy />)
+                        } else if (data.weather[0].description === "snow") {
+                            setIcon(<FaSnowflake />)
+                        } else if (data.weather[0].description === "dust") {
+                            setIcon(<WiDust />)
+                        } else if (data.weather[0].description === "fog") {
+                            setIcon(<BsCloudFog2 />)
+                        } else if (data.weather[0].description === "mist") {
+                            setIcon(<CiCloudDrizzle />)
+                        }
+                        setCity("")
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error)
+                    setCity("");
+                });
         }
     }
 
 
     return (
-        <div className='container w-full bg-slate-800 h-full'>
-            <div className='top-bar flex justify-center items-center gap-10 pt-60'>
-                <input type="text" placeholder='Search' value={city} onChange={(e) => setCity(e.target.value)} className='w-[362px]' />
-                <button onClick={handleSearch}>
-                    <FaSearch className='search-icon text-white' />
+        <div className=' w-[400px] bg-fuchsia-800 h-[555px] rounded-2xl p-5 font-sans'>
+
+            <form onSubmit={handleSearch} className='w-full relative flex items-center h-[55px]'>
+                <input
+                    type="text"
+                    placeholder='Search'
+                    value={city}
+                    onChange={(e) => setCity(e.target.value.trim())}
+                    className='w-full h-full absolute bg-transparent border-2 border-gray-500 text-xl outline-none text-white rounded-xl pl-5 pr-10' />
+                <button type="submit" className='text-white absolute right-0 h-full w-[40px] text-xl pr-5 pl-2'>
+                    <FaSearch />
                 </button>
-            </div>
-            <div className='weather-image text-white mt-7 flex justify-center text-[200px]' >
-                {icon}
-            </div>
-            <div className='weather-temp text-white text-9xl font-normal '>
-                {temp}°c
-            </div>
-            <div className='weather-location text-white text-6xl font-normal'>
-                {cityName}
-            </div>
-            <div className='data-container mt-12 text-white flex justify-center'>
-                <div className='elements m-auto flex items-start gap-3'>
-                    <WiHumidity className='icon text-white mt-3' />
-                    <div className='data text-4xl font-normal'>
-                        <div className='humudity-percentage'>{humidity}%</div>
-                        <div className='text text-xl font-normal'>Humidity</div>
-                    </div>
+            </form>
+
+            <div className=' mt-8 text-white font-normal flex flex-col items-center'>
+                <div className='   text-9xl' >
+                    {icon}
                 </div>
-                <div className='elements m-auto flex items-start gap-3'>
-                    <WiDayWindy className='icon text-white mt-3' />
-                    <div className='data text-4xl font-normal'>
-                        <div className='humudity-percentage'>{wind} km/h</div>
-                        <div className='text text-xl font-normal'>Wind Speed</div>
-                    </div>
+                <div className=' mt-6 text-6xl font-bold  '>
+                    {temp}<span className='absolute text-2xl'>°C</span>
+                </div>
+                <div className='mt-5 text-2xl font-medium'>
+                    {cityName}
                 </div>
             </div>
+
+            <div className='w-full mt-8 text-white flex justify-center items-center'>
+                
+                <div className='flex items-center justify-center  w-1/2'>
+                    <WiHumidity className=' h-full text-white text-6xl ' />
+                    <div className='font-medium' >
+                        <div className='text-xl'>{humidity} %</div>
+                        <div className='text-sm'>Humidity</div>
+                    </div>
+                </div>
+                
+                <div className='flex items-center justify-center gap-[10px] w-1/2'>
+                    <WiDayWindy className='h-full text-white text-6xl' />
+                    <div className='font-medium'>
+                        <div className='text-xl'>{wind} km/h</div>
+                        <div className=' text-sm'>Wind Speed</div>
+                    </div>
+                </div>
+            
+            </div>
+
         </div>
     )
 }

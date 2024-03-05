@@ -1,10 +1,11 @@
 import Weather from './Components/Weather'
-import './App.css'
 function App() {
 
   return (
     <>
+    <div className='bg-slate-800 h-[100vh] flex justify-center items-center'>
     <Weather/>
+    </div>
     </>
   )
 }
