@@ -13,14 +13,10 @@ import { CiCloudDrizzle } from "react-icons/ci"; //drizzle
 import { BsCloudFog2 } from "react-icons/bs"; //fog
 
 
-
-
-
-
-
 function Weather() {
     const key = import.meta.env.VITE_API_KEY
     const [city, setCity] = useState("")
+    const [description, setDescription] = useState("")
     const [humidity, setHumudity] = useState("0")
     const [wind, setWind] = useState("0")
     const [temp, setTemp] = useState("0")
@@ -36,18 +32,21 @@ function Weather() {
             await fetch(url)
                 .then((e) => e.json())
                 .then((data) => {
+                    
                     if (data.cod === "404") {
                         setCityName("Invalid City")
                         setHumudity("0")
                         setWind("0")
                         setTemp("0")
                         setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />)
+                        setDescription("")
                         setCity("")
                     } else {
 
                         setHumudity(Math.floor(data.main.humidity))
                         setWind(Math.floor(data.wind.speed))
                         setTemp(Math.floor(data.main.temp))
+                        setDescription(data.weather[0].main)
                         setCityName(data.name)
 
                         if (data.weather[0].description === "clear sky") {
@@ -101,7 +100,7 @@ function Weather() {
                     {temp}<span className='absolute text-2xl'>°C</span>
                 </div>
                 <div className='mt-5 text-2xl font-medium'>
-                    {cityName}
+                    {cityName}{description? ' - ' + description : null}
                 </div>
             </div>
 
