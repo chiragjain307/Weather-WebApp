@@ -48,21 +48,21 @@ function Weather() {
                         setDescription(data.weather[0].main)
                         setCityName(data.name)
 
-                        if (data.weather[0].description === "clear sky") {
+                        if (data.weather[0].main === "Clear") {
                             setIcon(<WiDaySunny />)
-                        } else if (data.weather[0].description === "few clouds") {
+                        } else if (data.weather[0].main === "Haze") {
                             setIcon(<BsCloudSun />)
-                        } else if (data.weather[0].description === "scattered clouds") {
+                        } else if (data.weather[0].main === "Clouds") {
                             setIcon(<BsClouds />)
-                        } else if (data.weather[0].description === "rain") {
+                        } else if (data.weather[0].main === "Rain") {
                             setIcon(<IoRainy />)
-                        } else if (data.weather[0].description === "snow") {
+                        } else if (data.weather[0].main === "Snow") {
                             setIcon(<FaSnowflake />)
-                        } else if (data.weather[0].description === "dust") {
+                        } else if (data.weather[0].main === "Dust") {
                             setIcon(<WiDust />)
-                        } else if (data.weather[0].description === "fog") {
+                        } else if (data.weather[0].main === "Fog") {
                             setIcon(<BsCloudFog2 />)
-                        } else if (data.weather[0].description === "mist") {
+                        } else if (data.weather[0].main === "Mist") {
                             setIcon(<CiCloudDrizzle />)
                         }
                         setCity("")
