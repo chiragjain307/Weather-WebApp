@@ -28,8 +28,6 @@ function App() {
     handleLocationPermission();
   }, []);
 
-
-  // Conditional return based on the loading state
   if (loading) {
     return (
       <div

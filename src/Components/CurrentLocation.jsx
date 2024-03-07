@@ -42,30 +42,30 @@ export default function CurrentLocation() {
                             setTemp(Math.floor(data.main.temp));
                             setCityName(data.name);
                             setDescription(data.weather[0].main)
-                            // Set icon based on weather description
-                            switch (data.weather[0].description) {
-                                case "clear sky":
+                            
+                            switch (data.weather[0].main) {
+                                case "Clear":
                                     setIcon(<WiDaySunny />);
                                     break;
-                                case "few clouds":
+                                case "Haze":
                                     setIcon(<BsCloudSun />);
                                     break;
-                                case "scattered clouds":
+                                case "Clouds":
                                     setIcon(<BsClouds />);
                                     break;
-                                case "rain":
+                                case "Rain":
                                     setIcon(<IoRainy />);
                                     break;
-                                case "snow":
+                                case "Snow":
                                     setIcon(<FaSnowflake />);
                                     break;
-                                case "dust":
+                                case "Dust":
                                     setIcon(<WiDust />);
                                     break;
-                                case "fog":
+                                case "Fog":
                                     setIcon(<BsCloudFog2 />);
                                     break;
-                                case "mist":
+                                case "Mist":
                                     setIcon(<CiCloudDrizzle />);
                                     break;
                                 default:

@@ -48,22 +48,33 @@ function Weather() {
                         setDescription(data.weather[0].main)
                         setCityName(data.name)
 
-                        if (data.weather[0].main === "Clear") {
-                            setIcon(<WiDaySunny />)
-                        } else if (data.weather[0].main === "Haze") {
-                            setIcon(<BsCloudSun />)
-                        } else if (data.weather[0].main === "Clouds") {
-                            setIcon(<BsClouds />)
-                        } else if (data.weather[0].main === "Rain") {
-                            setIcon(<IoRainy />)
-                        } else if (data.weather[0].main === "Snow") {
-                            setIcon(<FaSnowflake />)
-                        } else if (data.weather[0].main === "Dust") {
-                            setIcon(<WiDust />)
-                        } else if (data.weather[0].main === "Fog") {
-                            setIcon(<BsCloudFog2 />)
-                        } else if (data.weather[0].main === "Mist") {
-                            setIcon(<CiCloudDrizzle />)
+                        switch (data.weather[0].main) {
+                            case "Clear":
+                                setIcon(<WiDaySunny />);
+                                break;
+                            case "Haze":
+                                setIcon(<BsCloudSun />);
+                                break;
+                            case "Clouds":
+                                setIcon(<BsClouds />);
+                                break;
+                            case "Rain":
+                                setIcon(<IoRainy />);
+                                break;
+                            case "Snow":
+                                setIcon(<FaSnowflake />);
+                                break;
+                            case "Dust":
+                                setIcon(<WiDust />);
+                                break;
+                            case "Fog":
+                                setIcon(<BsCloudFog2 />);
+                                break;
+                            case "Mist":
+                                setIcon(<CiCloudDrizzle />);
+                                break;
+                            default:
+                                setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />);
                         }
                         setCity("")
                     }
