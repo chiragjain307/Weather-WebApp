@@ -1,48 +1,20 @@
-// import CurrentLocation from './Components/CurrentLocation'
-// import Weather from './Components/Weather'
-// import background from './assets/background.jpg'
-// function App() {
-
-//   return (
-//     <>
-//     <div 
-//     className='bg-slate-800 h-[100vh] flex justify-center items-center'
-//     style={{
-//       backgroundImage: `url(${background})`,
-//       backgroundSize: 'cover',
-//       backgroundPosition: 'center',
-//     }}>
-//     <CurrentLocation/>  
-//     <Weather/>
-//     </div>
-//     </>
-//   )
-// }
-
-// export default App
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import CurrentLocation from './Components/CurrentLocation';
 import Weather from './Components/Weather';
-import background from './assets/background.jpg';
-import loader from './assets/WeatherIcons.gif';
+import png from './assets/WeatherIcons.gif';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const handleLocationPermission = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-            position ?
-              (
-                setTimeout(() => {
-                  setLoading(false);
-                }, [3000])
-              )
-              : null
-        
+        position ?
+          (
+            setTimeout(() => {
+              setLoading(false);
+            }, [3000])
+          )
+          : null
       },
       (error) => {
         alert('Please allow location access to use the app');
@@ -54,42 +26,34 @@ function App() {
 
   useEffect(() => {
     handleLocationPermission();
-  }, [loading]);
+  }, []);
 
 
   // Conditional return based on the loading state
   if (loading) {
     return (
       <div
-        className='bg-slate-800 h-[100vh] flex justify-center items-center'
-        style={{
-          backgroundImage: `url(${background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className='h-[100vh] flex justify-center items-center'
+        
       >
-        <div style={{ textAlign: 'center' }}>
-          <img src={loader} style={{ width: '50%', WebkitUserDrag: 'none' }} />
-          <h3 style={{ color: 'white', fontSize: '22px', fontWeight: '600' }}>
-            Detecting your location
-          </h3>
-          <h3 style={{ color: 'white', marginTop: '10px' }}>
-            Your current location will be displayed on the App <br /> & used
-            for calculating Real-time weather.
-          </h3>
-          <h2>Please Allow Your Locaion</h2>
+        <div className='w-[350px] flex flex-col items-center bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans' >
+          <img className=' w-5/6 ' src={png} />
+          <div className='text-white text-center'>
+            <h1 className=' text-2xl font-semibold' >
+              Detecting your location
+            </h1>
+            <h2 className='mt-3'>
+              Your current location will be displayed on the App & used for calculating Real-time weather.
+            </h2>
+            <h2 className='mt-3 font-medium '>Please allow your location</h2>
+          </div>
         </div>
       </div>
     );
   } else {
     return (
       <div
-        className='bg-slate-800 h-[100vh] flex justify-center items-center'
-        style={{
-          backgroundImage: `url(${background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+      className='lg:h-[100vh] md:font-light w-full flex flex-col lg:flex-row justify-center items-center gap-4 py-8 lg:py-0'        
       >
         <CurrentLocation />
         <Weather />

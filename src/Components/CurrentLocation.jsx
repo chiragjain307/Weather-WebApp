@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import invalid from '../assets/invalid.png';
-import { FaSearch } from "react-icons/fa";
 import { WiDaySunny } from "react-icons/wi"; // sunny/clear
 import { BsCloudSun } from "react-icons/bs"; //haze
 import { BsClouds } from "react-icons/bs"; //clouds
@@ -15,6 +14,7 @@ import { BsCloudFog2 } from "react-icons/bs"; //fog
 export default function CurrentLocation() {
     const key = import.meta.env.VITE_API_KEY;
     const [humidity, setHumidity] = useState("0");
+    const [description, setDescription] = useState("")
     const [wind, setWind] = useState("0");
     const [temp, setTemp] = useState("0");
     const [cityName, setCityName] = useState("Enter Location");
@@ -24,9 +24,7 @@ export default function CurrentLocation() {
         // Fetch weather data for the user's current location
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-              console.log(position)
                 const { latitude, longitude } = position.coords;
-                console.log(latitude, longitude);
                 const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${key}`;
                 await fetch(url)
                     .then((response) => response.json())
@@ -37,11 +35,13 @@ export default function CurrentLocation() {
                             setWind("0");
                             setTemp("0");
                             setIcon(<img src={invalid} alt="invalid" className='w-[128px]' />);
+                            setDescription("");
                         } else {
                             setHumidity(Math.floor(data.main.humidity));
                             setWind(Math.floor(data.wind.speed));
                             setTemp(Math.floor(data.main.temp));
                             setCityName(data.name);
+                            setDescription(data.weather[0].main)
                             // Set icon based on weather description
                             switch (data.weather[0].description) {
                                 case "clear sky":
@@ -84,8 +84,8 @@ export default function CurrentLocation() {
     }, []);
 
     return (
-        <div className='w-[400px] bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans'>
-
+        <div className='w-[350px] bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans'>
+            <h1 className=' text-3xl text-white font-bold text-center'>Current Location Weather</h1>
             <div className='mt-8 text-white font-normal flex flex-col items-center'>
                 <div className='text-9xl'>
                     {icon}
@@ -94,7 +94,7 @@ export default function CurrentLocation() {
                     {temp}<span className='absolute text-2xl'>°C</span>
                 </div>
                 <div className='mt-5 text-2xl font-medium'>
-                    {cityName}
+                    {cityName}{description? ' - ' + description : null}
                 </div>
             </div>
 

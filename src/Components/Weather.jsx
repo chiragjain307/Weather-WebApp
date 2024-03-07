@@ -42,7 +42,6 @@ function Weather() {
                         setDescription("")
                         setCity("")
                     } else {
-
                         setHumudity(Math.floor(data.main.humidity))
                         setWind(Math.floor(data.wind.speed))
                         setTemp(Math.floor(data.main.temp))
@@ -78,7 +77,7 @@ function Weather() {
 
 
     return (
-        <div className=' w-[400px] bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans'>
+        <div className=' w-[350px] bg-white bg-opacity-15 border-2 border-white border-opacity-20 backdrop-blur-lg h-[555px] rounded-2xl p-5 font-sans'>
 
             <form onSubmit={handleSearch} className='w-full relative flex items-center h-[55px]'>
                 <input
@@ -92,11 +91,11 @@ function Weather() {
                 </button>
             </form>
 
-            <div className=' mt-8 text-white font-normal flex flex-col items-center'>
-                <div className='   text-9xl' >
+            <div className='mt-8 text-white font-normal flex flex-col items-center'>
+                <div className='text-9xl' >
                     {icon}
                 </div>
-                <div className=' mt-6 text-6xl font-bold  '>
+                <div className='mt-6 text-6xl font-bold  '>
                     {temp}<span className='absolute text-2xl'>°C</span>
                 </div>
                 <div className='mt-5 text-2xl font-medium'>
